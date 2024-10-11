@@ -8,7 +8,7 @@ def valid_integer(prompt):
     while True:
         try:
             value = int(input(prompt))
-            if 0 <= value <= 100:
+            if value <= 100:
                 return value
             else:
                 print("Input must be between 0 and 100.Please try again.")
