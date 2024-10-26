@@ -1,7 +1,4 @@
 # Write the recursive version of binary search.
-print("")
-print("")
-print("")
 
 
 def binarySearch(list1, i, start, end):
