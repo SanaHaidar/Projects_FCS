@@ -74,6 +74,11 @@ END def add_driver():
 def check_similar_drivers(drivers):
     for city, driver_list in drivers:
         DISPLAY city: ADD(driver.name for driver in drivers_list)"
-    END for 
+    END for
+    DISPLAY "Return to Main Menu? (yes to return)"
+    INPUT 
+    if INPUT = "yes":
+        CALL main_menu()
+    END if 
 END def check_similar_drivers()
             
