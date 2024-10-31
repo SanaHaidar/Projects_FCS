@@ -33,7 +33,7 @@ cities = []
 
 def view_all_drivers(drivers):
     for city, driver_list in drivers:
-        for driver in drivers:
+        for driver in drivers_list:
             DISPLAY  "ID:", driver, ID "Name:", driver.name, "Start City:" driver.start_city
         END for
     END for
@@ -55,6 +55,7 @@ def add_driver(drivers, cities):
             drivers[start_city] = []
         ADD(ID, name, start_city) to drivers[start_city] = []
 
+        END if
     else:
         Prompt: "The city is not available, add it? (yes/no)"
         INPUT answer
@@ -63,8 +64,6 @@ def add_driver(drivers, cities):
             CALL add_driver(drivers, cities)
         else:
             RETURN to drivers_menu()
-
-        END if
     END if
 
 
