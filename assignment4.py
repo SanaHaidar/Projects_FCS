@@ -64,3 +64,32 @@ print(is_palind(seq))
 
 
 # Write deleteAtLocation function for a LL that takes as input an integer and deletes the node at that given location.
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+def deleteNode(head, position):
+    temp = head
+    prev = None
+    if head is None:
+        print("List is empty")
+        return head
+    if position == 1:
+        head = temp.next
+        return head
+    for i in range(1, position-1):
+        temp = temp.next
+        if temp is None or temp.next is None:
+            print("Data not present")
+            return head
+    temp.next = temp.next.next
+    return head
+
+
+def printList(head):
+    while head:
+        print(f'{head.data} ->', end=" ")
+        head = head.next
+    print("None")
