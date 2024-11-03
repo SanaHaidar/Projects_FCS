@@ -50,7 +50,7 @@ def check_similar_drivers(drivers):
     DISPLAY "Return to Main Menu? (yes to return)"
     INPUT
     if INPUT = "yes":
-        CALL main()
+        CALL main_menu()
     END if
 END def check_similar_drivers()'''
 
@@ -60,7 +60,13 @@ drivers = {
     "Saida": [{"ID": "ID002", "name": "Charles Leclerc"}],
     "Jbeil": [{"ID": "ID003", "name": "Lando Norris"}]
 }
-cities = ["Beirut", "Jbeil", "Akkar", "Zahle", "Saida"]
+cities = {
+    "Beirut": ["Jbeil"],
+    "Jbeil": ["Akkar", "Beirut"],
+    "Akkar": ["Jbeil"],
+    "Saida": ["Zahle"],
+    "Zahle": ["Saida"]
+}
 
 
 def view_all_drivers(drivers):
@@ -68,20 +74,18 @@ def view_all_drivers(drivers):
         for driver in driver_list:
             print(f'ID: {driver["ID"]},Name: {
                   driver["name"]}, Start City: {start_city}')
-    input("Press enter to go back to main menu")
-    drivers_menu()
 
 
 def add_driver(drivers, cities):
-    name = input("Enter driver's name: ")
-    start_city = input("Enter start city: ")
+    name = input("Enter driver's name: ").strip()
+    start_city = input("Enter start city: ").strip().lower()
 
     if start_city in cities:
         id = max(
             (int(driver["ID"][2:]) for start_city,
              driver_list in drivers.items() for driver in driver_list),
             default=0
-        )
+        ) + 1
         id_new = f'ID{id+1:03}'
         driver_new = {"ID": id_new, "name": name}
 
@@ -95,22 +99,15 @@ def add_driver(drivers, cities):
         answer = input("The city is not available, add it? (yes/no)")
 
         if answer.lower() == "yes":
-            cities.append(start_city)
+
+            cities[start_city] = []
+            drivers[start_city] = []
             add_driver(drivers, cities)
         else:
             print("Driver was not added.")
 
-    drivers_menu()
-
 
 def check_similar_drivers(drivers):
     for city, driver_list in drivers.items():
-        print(city + ":" + ",".join(driver["name"]for driver in driver_list))
-
-    answer = input("Return to Main Menu? (yes to return)")
-
-    if answer.lower() == "yes":
-        main()
-
-
-main()
+        print(city.capitalize() + ":" +
+              ",".join(driver["name"]for driver in driver_list))
