@@ -61,9 +61,38 @@ print(is_palind(seq))
 
 
 # You work for the MIB(men in black) and would like to decode the messages that they send you. The message contains alphabetical characters, white spaces, and Asterix. To decode the message, you need a stack. You start looping through the message pushing each alphabetical character and white space to your stack. Once you reach an Asterix, you pop one character out of your stack. Sometimes, you receive an incomplete message. Therefore, if you reach the end of the string and you still have characters in your stack, pop all of them out.
+def decode_message(message):
+    stack = []
 
+    for char in message:
+        if char == '*':
+            if stack:
+                stack.pop()
+        else:
+            stack.append(char)
+
+    return ''.join(reversed(stack))
+
+
+def decode_full_message(message):
+    parts = message.split('*')
+    result = []
+
+    for part in parts:
+        decoded_part = decode_message(part).strip()
+        if decoded_part:
+            result.append(decoded_part)
+
+    return ' '.join(result)
+
+
+message = "SIVLE ****** DAED TNSI ***"
+decoded_message = decode_full_message(message)
+print(decoded_message)
 
 # Write deleteAtLocation function for a LL that takes as input an integer and deletes the node at that given location.
+
+
 class Node:
     def __init__(self, data):
         self.data = data
