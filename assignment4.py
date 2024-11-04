@@ -60,7 +60,26 @@ print(is_palind(seq))
 # Input: (1+[2-3]*4{41+6}) output: True
 
 
+def is_balanced(expression):
+
+    parentheses = {')': '(', '}': '{', ']': '['}
+    queue = []
+
+    for char in expression:
+        if char in parentheses.values():
+            queue.append(char)
+        elif char in parentheses.keys():
+            if not queue:
+                return False
+            front = queue.pop(0)
+            if front != parentheses[char]:
+                return False
+
+    return len(queue) == 0
+
 # You work for the MIB(men in black) and would like to decode the messages that they send you. The message contains alphabetical characters, white spaces, and Asterix. To decode the message, you need a stack. You start looping through the message pushing each alphabetical character and white space to your stack. Once you reach an Asterix, you pop one character out of your stack. Sometimes, you receive an incomplete message. Therefore, if you reach the end of the string and you still have characters in your stack, pop all of them out.
+
+
 def decode_message(message):
     stack = []
 
