@@ -89,6 +89,20 @@ def add_driver(drivers, cities):
         drivers[start_city].append(driver_new)
         print(f"{driver_new} added successfully")
 
+        neighbors = cities.get(start_city, [])
+        if neighbors:
+            print(f"{start_city.capitalize()} has neighboring cities: {
+                  ', '.join(neighbors)}.")
+            add_to_neighbors = input(
+                "Would you like to add the driver to any neighboring cities? (yes/no): ").strip().lower()
+
+            if add_to_neighbors == "yes":
+                for neighbor in neighbors:
+                    if neighbor not in drivers:
+                        drivers[neighbor] = []
+                    drivers[neighbor].append(driver_new)
+                    print(f"Driver {driver_new} added to {
+                          neighbor.capitalize()} as well.")
     else:
         answer = input(
             "The city is not available, add it? (yes/no)").strip().lower()
@@ -102,9 +116,43 @@ def add_driver(drivers, cities):
 
 
 def check_similar_drivers(drivers):
-    for city, driver_list in drivers.items():
-        print(city.capitalize() + ":" +
-              ",".join(driver["name"]for driver in driver_list))
+
+    choice = input(
+        "Would you like to search by (1) City or (2) Driver Name? Enter 1 or 2: ").strip()
+
+    if choice == "1":
+
+        city = input("Enter the city name: ").strip().lower()
+        if city in drivers:
+            driver_names = ", ".join(driver["name"]
+                                     for driver in drivers[city])
+            print(f"{city.capitalize()}: {driver_names}")
+        else:
+            print(f"No drivers found starting from '{city.capitalize()}'.")
+
+    elif choice == "2":
+
+        driver_name = input("Enter the driver's name: ").strip().lower()
+        found_city = None
+
+        for city, driver_list in drivers.items():
+            for driver in driver_list:
+                if driver["name"].lower() == driver_name:
+                    found_city = city
+                    break
+            if found_city:
+                break
+
+        if found_city:
+            driver_names = ", ".join(driver["name"]
+                                     for driver in drivers[found_city])
+            print(f"{found_city.capitalize()}: {driver_names}")
+        else:
+            print(f"No driver found with the name '{
+                  driver_name.capitalize()}'.")
+
+    else:
+        print("Invalid input. Please enter 1 for City or 2 for Driver Name.")
 
 
 def cities_menu():
@@ -181,7 +229,7 @@ def bfs(start_city, visited, drivers_delivering):
 
 
 def drivers_delivering():
-    city = input("\nEnter city name: ").strip()
+    city = input("\nEnter city name: ").strip().lower()
     visited = set()
     drivers_delivering = set()
     if city in cities:
